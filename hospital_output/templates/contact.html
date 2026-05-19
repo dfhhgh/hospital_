@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block page_class %}page-light{% endblock %}
+
+{% block content %}
+      <section class="section-header contact-header">
+        <h1>Contact Us</h1>
+        <p>
+          Have questions about appointments or departments? Send us a message.
+        </p>
+      </section>
+
+      <section class="contact-layout">
+        <article class="contact-info-card">
+          <h2>Clinic Information</h2>
+
+          <div class="contact-row">
+            <strong>Phone</strong>
+            <span>+20 100 123 4567</span>
+          </div>
+
+          <div class="contact-row">
+            <strong>Email</strong>
+            <span>support@clinic-care.com</span>
+          </div>
+
+          <div class="contact-row">
+            <strong>Address</strong>
+            <span>125 Wellness Street, Cairo</span>
+          </div>
+
+          <div class="contact-row">
+            <strong>Hours</strong>
+            <span>Sat - Thu, 9:00 AM - 8:00 PM</span>
+          </div>
+        </article>
+
+        <article class="contact-form-card">
+          <h2>Send a Message</h2>
+
+          <form id="contactForm" class="contact-form">
+            <label>
+              Full Name
+              <input type="text" id="contactName" required />
+            </label>
+
+            <label>
+              Email Address
+              <input type="email" id="contactEmail" required />
+            </label>
+
+            <label>
+              Subject
+              <input type="text" id="contactSubject" required />
+            </label>
+
+            <label>
+              Message
+              <textarea id="contactMessage" rows="5" required></textarea>
+            </label>
+
+            <button type="submit" class="btn btn-pill">Send Message</button>
+          </form>
+
+          <p class="form-note" id="contactResult"></p>
+        </article>
+      </section>
+{% endblock %}

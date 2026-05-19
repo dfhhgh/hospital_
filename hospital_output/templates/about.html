@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}About Clinic{% endblock %}
+
+{% block page_class %}page-light{% endblock %}
+
+{% block content %}
+      <section class="section-header about-header">
+        <h1>About Our Clinic</h1>
+        <p>
+          We provide trusted, human-centered healthcare with modern facilities,
+          experienced doctors, and a patient-first philosophy.
+        </p>
+      </section>
+
+      <section class="about-layout">
+        <article class="about-card">
+          <h2>Who We Are</h2>
+          <p>
+            Clinic is a multidisciplinary medical center delivering quality care
+            in cardiology, pediatrics, neurology, orthopedics, dermatology, and
+            general medicine.
+          </p>
+          <p>
+            Our teams collaborate across specialties to ensure every patient
+            receives complete and personalized treatment.
+          </p>
+        </article>
+
+        <article class="about-card">
+          <h2>Our Mission</h2>
+          <p>
+            To make healthcare accessible, compassionate, and effective through
+            clinical excellence and continuous innovation.
+          </p>
+          <ul class="about-list">
+            <li>Patient safety and quality first</li>
+            <li>Fast appointment and follow-up process</li>
+            <li>Clear communication and support</li>
+            <li>Evidence-based medical decisions</li>
+          </ul>
+        </article>
+
+        <article class="about-card">
+          <h2>Why Patients Choose Us</h2>
+          <div class="about-stats">
+            <div>
+              <strong>50+</strong>
+              <span>Specialists</span>
+            </div>
+            <div>
+              <strong>20K+</strong>
+              <span>Annual Visits</span>
+            </div>
+            <div>
+              <strong>4.8/5</strong>
+              <span>Patient Rating</span>
+            </div>
+          </div>
+
+          <a class="btn btn-pill" href="{{ url_for('main.appointment_page') }}">
+            Book an Appointment
+          </a>
+        </article>
+      </section>
+{% endblock %}

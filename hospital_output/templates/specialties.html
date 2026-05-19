@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Clinic Departments{% endblock %}
+
+{% block page_class %}page-light{% endblock %}
+
+{% block content %}
+      <section class="section-header">
+        <h1>Clinic Departments</h1>
+      </section>
+
+      <section class="departments-grid">
+        <!-- Cardiology -->
+        <article class="department-card">
+          <div class="dept-icon">&#9829;</div>
+
+          <h2>Cardiology</h2>
+
+          <p>
+            Specialized care for heart and vascular disorders. Services include
+            advanced diagnostics, intervention, and rehabilitation.
+          </p>
+
+          <a
+            class="btn btn-pill"
+            href="{{ url_for('doctor.doctors_page', specialty='Cardiology') }}"
+          >
+            View Specialists
+          </a>
+        </article>
+
+        <!-- Neurology -->
+        <article class="department-card">
+          <div class="dept-icon">&#9883;</div>
+
+          <h2>Neurology</h2>
+
+          <p>
+            Expert diagnosis and treatment for conditions affecting the brain,
+            spinal cord, and nervous system.
+          </p>
+
+          <a
+            class="btn btn-pill"
+            href="{{ url_for('doctor.doctors_page', specialty='Neurology') }}"
+          >
+            View Specialists
+          </a>
+        </article>
+
+        <!-- Pediatrics -->
+        <article class="department-card">
+          <div class="dept-icon">&#9786;</div>
+
+          <h2>Pediatrics</h2>
+
+          <p>
+            Comprehensive healthcare for infants, children, and adolescents
+            focusing on growth and development.
+          </p>
+
+          <a
+            class="btn btn-pill"
+            href="{{ url_for('doctor.doctors_page', specialty='Pediatrics') }}"
+          >
+            View Specialists
+          </a>
+        </article>
+
+        <!-- Orthopedics -->
+        <article class="department-card">
+          <div class="dept-icon">&#9854;</div>
+
+          <h2>Orthopedics</h2>
+
+          <p>
+            Integrated care for musculoskeletal issues, including fractures,
+            arthritis, and joint replacement surgery.
+          </p>
+
+          <a
+            class="btn btn-pill"
+            href="{{ url_for('doctor.doctors_page', specialty='Orthopedics') }}"
+          >
+            View Specialists
+          </a>
+        </article>
+
+        <!-- General Medicine -->
+        <article class="department-card">
+          <div class="dept-icon">&#9877;</div>
+
+          <h2>General Medicine</h2>
+
+          <p>
+            Primary care services for preventive health, routine check-ups and
+            chronic disease management.
+          </p>
+
+          <a class="btn btn-pill" href="{{ url_for('doctor.doctors_page') }}">
+            View Specialists
+          </a>
+        </article>
+
+        <!-- Dermatology -->
+        <article class="department-card">
+          <div class="dept-icon">&#9878;</div>
+
+          <h2>Dermatology</h2>
+
+          <p>
+            Diagnosis and treatment for skin, hair and nail conditions with
+            medical and cosmetic solutions.
+          </p>
+
+          <a
+            class="btn btn-pill"
+            href="{{ url_for('doctor.doctors_page', specialty='Dermatology') }}"
+          >
+            View Specialists
+          </a>
+        </article>
+      </section>
+{% endblock %}

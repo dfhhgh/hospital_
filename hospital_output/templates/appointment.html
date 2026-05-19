@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block page_class %}page-light{% endblock %}
+
+{% block content %}
+      <section class="section-header">
+        <h1>Book an Appointment</h1>
+      </section>
+
+      <section class="appointment-layout">
+        <div class="appointment-left">
+          <!-- Doctor Info -->
+
+          <article class="doctor-profile-card">
+            <img
+              id="bookingDoctorImage"
+              src="{% if doctor %}{{ url_for('doctor.doctor_image', id=doctor.EmployeeID) }}{% else %}https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=300&q=80{% endif %}"
+              alt="Doctor"
+            />
+
+            <div>
+              <h2 id="bookingDoctorName">{% if doctor %}Dr. {{ doctor.FirstName }} {{ doctor.LastName }}{% else %}Doctor{% endif %}</h2>
+
+              <p id="bookingDoctorSpecialty" class="highlight">{% if doctor %}{{ doctor.Specialty or 'General' }}{% else %}Specialty{% endif %}</p>
+
+              <p id="bookingDoctorExperience">{% if doctor %}{{ doctor.ExperienceYears or '0' }} Years Experience{% else %}Experience{% endif %}</p>
+
+              <p id="bookingDoctorDepartment">{% if doctor %}{{ doctor.Specialty or 'Department' }} Department{% endif %}</p>
+            </div>
+          </article>
+
+          <!-- Calendar -->
+
+          <article class="calendar-card" id="calendarCard">
+            <div class="calendar-head">
+              <button type="button" id="prevMonth">&lt;</button>
+
+              <strong id="monthLabel"> Month Year </strong>
+
+              <button type="button" id="nextMonth">&gt;</button>
+            </div>
+
+            <div class="calendar-weekdays">
+              <span>Su</span>
+              <span>Mo</span>
+              <span>Tu</span>
+              <span>We</span>
+              <span>Th</span>
+              <span>Fr</span>
+              <span>Sa</span>
+            </div>
+
+            <div class="calendar-days" id="calendarDays"></div>
+
+            <div class="time-slots" id="timeSlots">
+              <button type="button" data-time="9:00 AM">9:00 AM</button>
+
+              <button type="button" data-time="10:30 AM" class="selected">
+                10:30 AM
+              </button>
+
+              <button type="button" data-time="2:00 PM">2:00 PM</button>
+              <button type="button" data-time="2:00 PM">2:30 PM</button>
+              <button type="button" data-time="3:30 PM">3:30 PM</button>
+              <button type="button" data-time="4:30 PM">4:30 PM</button>
+
+              <button type="button" data-time="6:30 PM">6:30 PM</button>
+
+              <button type="button" data-time="8:00 PM">8:00 PM</button>
+            </div>
+          </article>
+        </div>
+
+        <!-- Booking Form -->
+
+        <article class="booking-form-card">
+          <h2>Patient Details</h2>
+
+          <form
+            method="POST"
+            action="{{ url_for('appointment.book_appointment') }}"
+            class="booking-form"
+          >
+            <label>
+              Full Name
+
+              <input type="text" name="full_name" required />
+            </label>
+
+            <label>
+              Email Address
+
+              <input type="email" name="email" required />
+            </label>
+
+            <label>
+              Reason for Visit
+
+              <textarea name="reason" rows="4" required></textarea>
+            </label>
+
+            <input type="hidden" name="date" id="selectedDate" />
+            <!-- Ensure doctor_id is clean -->
+            {% set raw_doctor_id = request.args.get('doctor_id', '') %}
+            {% set clean_doctor_id = raw_doctor_id.split('?')[0] if raw_doctor_id else '' %}
+            <input type="hidden" name="doctor_id" id="bookingDoctorId" value="{{ clean_doctor_id }}" />
+
+            <input
+              type="hidden"
+              name="time"
+              id="selectedTime"
+              value="10:30 AM"
+            />
+            
+
+            <button class="btn btn-pill" type="submit">Confirm Booking</button>
+          </form>
+
+          <p class="form-note" id="bookingResult"></p>
+        </article>
+      </section>
+{% endblock %}

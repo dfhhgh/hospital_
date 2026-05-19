@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Clinic Hospital System{% endblock %}</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600;700;800&family=Manrope:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+
+    {% block main_css %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='clinic.css') }}"
+    />
+    {% endblock %}
+    {% block extra_css %}{% endblock %}
+  </head>
+
+  <body>
+    <!-- ================= HEADER ================= -->
+    {% block header %}
+    <header class="topbar">
+      <a class="brand" href="{{ url_for('main.home_page') }}">Clinic</a>
+
+      <nav class="nav-links">
+        <a class="{{ 'active' if request.endpoint == 'main.home_page' else '' }}" href="{{ url_for('main.home_page') }}">Home</a>
+        <a class="{{ 'active' if request.endpoint == 'doctor.doctors_page' else '' }}" href="{{ url_for('doctor.doctors_page') }}">Doctors</a>
+        <a class="{{ 'active' if request.endpoint == 'main.departments_page' else '' }}" href="{{ url_for('main.departments_page') }}">Departments</a>
+        <a class="{{ 'active' if request.endpoint == 'patient.patient_profile' else '' }}" href="{{ url_for('patient.patient_profile') }}">Profile</a>
+        <a class="{{ 'active' if request.endpoint == 'main.about_page' else '' }}" href="{{ url_for('main.about_page') }}">About</a>
+        <a class="{{ 'active' if request.endpoint == 'main.contact_page' else '' }}" href="{{ url_for('main.contact_page') }}">Contact</a>
+      </nav>
+    </header>
+    {% endblock %}
+
+    <!-- ================= MAIN ================= -->
+    {% block main_container %}
+    <main class="page {% block page_class %}{% endblock %}">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          <div class="flash-messages">
+            {% for category, message in messages %}
+              <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% block content %}{% endblock %}
+    </main>
+    {% endblock %}
+
+    <!-- ================= FOOTER ================= -->
+    {% block footer %}
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <h2>Clinic</h2>
+                <p>Providing quality healthcare since 2026.</p>
+            </div>
+            <div class="footer-links">
+                <a href="{{ url_for('main.home_page') }}">Home</a>
+                <a href="{{ url_for('doctor.doctors_page') }}">Doctors</a>
+                <a href="{{ url_for('main.about_page') }}">About Us</a>
+                <a href="{{ url_for('main.contact_page') }}">Contact</a>
+            </div>
+            <div class="footer-contact">
+                <p>📍 123 Health St, Medical City</p>
+                <p>📞 +1 (555) 123-4567</p>
+                <p>✉️ internal.clinic@example.com</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 Clinic Hospital System. All rights reserved.</p>
+        </div>
+    </footer>
+    {% endblock %}
+
+    <script src="{{ url_for('static', filename='clinic.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+  </body>
+</html>

@@ -1,0 +1,401 @@
+{% extends "base.html" %}
+
+{% block title %}Patient Profile{% endblock %}
+
+{% block extra_css %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='patient.css') }}"
+    />
+{% endblock %}
+
+{% block page_class %}patient-page{% endblock %}
+
+{% block content %}
+      <section class="hero">
+        <div>
+          <h1>Patient Profile</h1>
+          <p>Keep your personal and medical details up to date.</p>
+        </div>
+        <div class="hero-actions">
+           <button class="btn-edit-profile" onclick="document.getElementById('editProfileDialog').showModal()">Edit Profile</button>
+           <div class="hero-badge">ID: {{ profile.UserID }}</div>
+        </div>
+      </section>
+
+      <dialog id="editProfileDialog" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Edit Profile Information</h2>
+            <button class="btn-close" onclick="document.getElementById('editProfileDialog').close()">&times;</button>
+          </div>
+
+          <form
+            method="POST"
+            action="{{ url_for('patient.patient_profile') }}"
+            class="form-grid"
+          >
+            <label>
+              First Name
+              <input
+                type="text"
+                name="first_name"
+                required
+                value="{{ profile.FirstName or '' }}"
+              />
+            </label>
+
+            <label>
+              Last Name
+              <input
+                type="text"
+                name="last_name"
+                required
+                value="{{ profile.LastName or '' }}"
+              />
+            </label>
+
+            <label>
+              Gender
+              <select name="gender">
+                <option value="" {% if not profile.Gender %}selected{% endif %}>
+                  Select
+                </option>
+                <option value="Male" {% if profile.Gender == "Male" %}selected{% endif %}>
+                  Male
+                </option>
+                <option value="Female" {% if profile.Gender == "Female" %}selected{% endif %}>
+                  Female
+                </option>
+              </select>
+            </label>
+
+            <label>
+              Date of Birth
+              <input
+                type="date"
+                name="dob"
+                value="{{ profile.DateOfBirth.strftime('%Y-%m-%d') if profile.DateOfBirth else '' }}"
+              />
+            </label>
+
+            <label class="full-width">
+              Email
+              <input
+                type="email"
+                name="email"
+                required
+                value="{{ profile.Email or '' }}"
+              />
+            </label>
+
+            <label>
+              Phone
+              <input
+                type="text"
+                name="phone"
+                value="{{ profile.Phone or '' }}"
+              />
+            </label>
+
+            <label>
+              Blood Type
+              <select name="blood_type">
+                <option value="" {% if not profile.BloodType %}selected{% endif %}>
+                  Select
+                </option>
+                <option value="A+" {% if profile.BloodType == "A+" %}selected{% endif %}>
+                  A+
+                </option>
+                <option value="A-" {% if profile.BloodType == "A-" %}selected{% endif %}>
+                  A-
+                </option>
+                <option value="B+" {% if profile.BloodType == "B+" %}selected{% endif %}>
+                  B+
+                </option>
+                <option value="B-" {% if profile.BloodType == "B-" %}selected{% endif %}>
+                  B-
+                </option>
+                <option value="AB+" {% if profile.BloodType == "AB+" %}selected{% endif %}>
+                  AB+
+                </option>
+                <option value="AB-" {% if profile.BloodType == "AB-" %}selected{% endif %}>
+                  AB-
+                </option>
+                <option value="O+" {% if profile.BloodType == "O+" %}selected{% endif %}>
+                  O+
+                </option>
+                <option value="O-" {% if profile.BloodType == "O-" %}selected{% endif %}>
+                  O-
+                </option>
+              </select>
+            </label>
+
+            <label class="full-width">
+              Address
+              <textarea name="address" rows="3">
+{{ profile.Address or '' }}</textarea
+              >
+            </label>
+
+            <div class="modal-footer full-width">
+               <button type="button" class="btn-secondary" onclick="document.getElementById('editProfileDialog').close()">Cancel</button>
+               <button type="submit">Save Changes</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+
+      <section class="dashboard-grid">
+        <div class="side-column">
+          <article class="card">
+            <h2>Account Snapshot</h2>
+            
+            {% if success %}
+             <div class="alert alert-success">{{ success }}</div>
+            {% endif %}
+            {% if error %}
+             <div class="alert alert-error">{{ error }}</div>
+            {% endif %}
+
+            <div class="snapshot">
+              <div class="metric">
+                <span class="metric-label">Full Name</span>
+                <strong
+                  >{{ (profile.FirstName or '') ~ ' ' ~ (profile.LastName or '')
+                  }}</strong
+                >
+              </div>
+
+              <div class="metric">
+                <span class="metric-label">Blood Type</span>
+                <strong>{{ profile.BloodType or 'Not set' }}</strong>
+              </div>
+
+              <div class="metric wide">
+                <span class="metric-label">Date of Birth</span>
+                <strong>{{ profile.DateOfBirth or 'Not set' }}</strong>
+              </div>
+
+              <div class="metric wide">
+                <span class="metric-label">Email</span>
+                <strong>{{ profile.Email or 'Not set' }}</strong>
+              </div>
+
+              <div class="metric wide">
+                <span class="metric-label">Phone</span>
+                <strong>{{ profile.Phone or 'Not set' }}</strong>
+              </div>
+
+              <div class="metric wide">
+                <span class="metric-label">Address</span>
+                <strong>{{ profile.Address or 'Not set' }}</strong>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="side-column"> 
+          <!-- Appointments Section -->
+          <article class="card">
+            <h2>My Appointments</h2>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+              {% endfor %}
+            {% endwith %}
+            
+            {% if appointments %}
+            <div class="table-container">
+              <table class="appointments-table">
+                <thead>
+                  <tr>
+                    <th>Date & Time</th>
+                    <th>Doctor</th>
+                    <th>Status</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for apt in appointments %}
+                  <tr>
+                    <td>
+                      {% if apt.AppointmentDate is string %}
+                        {{ apt.AppointmentDate[:10] }}
+                      {% else %}
+                        {{ apt.AppointmentDate.strftime('%Y-%m-%d') }}
+                      {% endif %}
+                      {% if apt.AppointmentTime %}
+                        {% if apt.AppointmentTime is string %}
+                          {{ apt.AppointmentTime[:5] }}
+                        {% else %}
+                          {{ apt.AppointmentTime.strftime('%I:%M %p') }}
+                        {% endif %}
+                      {% endif %}
+                    </td>
+                    <td>{{ apt.DoctorName }}</td>
+                    <td>
+                      <span class="status-badge status-{{ apt.StatusName|lower }}">{{ apt.StatusName }}</span>
+                    </td>
+                    <td>{{ apt.AppointmentEmail }}</td>
+                    <td class="action-btns">
+                      {% if apt.StatusID != 3 %}
+                        <button
+                          class="btn-reschedule"
+                          onclick="openReschedule({{ apt.AppointmentID }}, '{{ apt.DoctorID }}', '{{ apt.AppointmentDate if apt.AppointmentDate is string else apt.AppointmentDate.strftime('%Y-%m-%d') }}')"
+                          title="Reschedule appointment">
+                          📅 Reschedule
+                        </button>
+                        <form
+                          method="POST"
+                          action="{{ url_for('appointment.cancel_appointment', appointment_id=apt.AppointmentID) }}"
+                          onsubmit="return confirm('Are you sure you want to cancel this appointment?');"
+                          style="display:inline;">
+                          <button type="submit" class="btn-cancel-appt" title="Cancel appointment">
+                            ✕ Cancel
+                          </button>
+                        </form>
+                      {% else %}
+                        <span style="color:#aaa;">Cancelled</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+            {% else %}
+            <p class="empty-state">No appointments found.</p>
+            {% endif %}
+          </article>
+        </div>
+      </section>
+
+      <!-- ===== Reschedule Modal ===== -->
+      <dialog id="rescheduleDialog" class="modal">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2>Reschedule Appointment</h2>
+            <button class="btn-close" onclick="document.getElementById('rescheduleDialog').close()">&times;</button>
+          </div>
+          <form method="POST" id="rescheduleForm" class="form-grid">
+            <label class="full-width">
+              New Date
+              <input type="date" name="new_date" id="reschedule_date" required onchange="loadBookedSlots()"/>
+            </label>
+
+            <label class="full-width">
+              New Time
+              <select name="new_time" id="reschedule_time" required>
+                <option value="">-- Select a time --</option>
+              </select>
+            </label>
+
+            <p id="slots-info" class="full-width" style="font-size:0.85rem; color: var(--clr-muted, #999);"></p>
+
+            <div class="modal-footer full-width">
+              <button type="button" class="btn-secondary" onclick="document.getElementById('rescheduleDialog').close()">Cancel</button>
+              <button type="submit">Save New Time</button>
+            </div>
+          </form>
+        </div>
+      </dialog>
+
+      <style>
+        .action-btns { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+
+        .btn-reschedule {
+          background: #3b82f6;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 5px 10px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .btn-reschedule:hover { background: #2563eb; }
+
+        .btn-cancel-appt {
+          background: #ef4444;
+          color: #fff;
+          border: none;
+          border-radius: 6px;
+          padding: 5px 10px;
+          font-size: 0.8rem;
+          cursor: pointer;
+          transition: background 0.2s;
+        }
+        .btn-cancel-appt:hover { background: #dc2626; }
+
+        .alert { padding: 10px 14px; border-radius: 8px; margin-bottom: 12px; font-size: 0.9rem; }
+        .alert-success { background: #d1fae5; color: #065f46; border: 1px solid #6ee7b7; }
+        .alert-error   { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+
+        #reschedule_time option.booked { color: #aaa; }
+      </style>
+
+      <script>
+        let _currentDoctorId = null;
+
+        function openReschedule(apptId, doctorId, currentDate) {
+          _currentDoctorId = doctorId;
+          const form = document.getElementById('rescheduleForm');
+          form.action = '/reschedule_appointment/' + apptId;
+
+          // Set min date to today
+          const today = new Date().toISOString().split('T')[0];
+          const dateInput = document.getElementById('reschedule_date');
+          dateInput.min = today;
+          dateInput.value = currentDate >= today ? currentDate : today;
+
+          // Reset time select and load slots
+          populateTimeSlots([]);
+          loadBookedSlots();
+
+          document.getElementById('rescheduleDialog').showModal();
+        }
+
+        function populateTimeSlots(bookedSlots) {
+          const sel = document.getElementById('reschedule_time');
+          sel.innerHTML = '<option value="">-- Select a time --</option>';
+          const slots = [];
+          for (let h = 8; h <= 16; h++) {
+            slots.push(String(h).padStart(2,'0') + ':00');
+            slots.push(String(h).padStart(2,'0') + ':30');
+          }
+          slots.forEach(t => {
+            const opt = document.createElement('option');
+            opt.value = t;
+            const [hh, mm] = t.split(':').map(Number);
+            const ampm = hh < 12 ? 'AM' : 'PM';
+            const h12 = hh % 12 || 12;
+            opt.textContent = `${String(h12).padStart(2,'0')}:${String(mm).padStart(2,'0')} ${ampm}`;
+            if (bookedSlots.includes(t)) {
+              opt.disabled = true;
+              opt.textContent += ' (Booked)';
+              opt.style.color = '#bbb';
+            }
+            sel.appendChild(opt);
+          });
+        }
+
+        function loadBookedSlots() {
+          const date = document.getElementById('reschedule_date').value;
+          const info = document.getElementById('slots-info');
+          if (!date || !_currentDoctorId) return;
+          info.textContent = 'Checking available slots…';
+          fetch('/get_booked_slots?doctor_id=' + _currentDoctorId + '&date=' + date)
+            .then(r => r.json())
+            .then(booked => {
+              populateTimeSlots(booked);
+              info.textContent = booked.length
+                ? booked.length + ' slot(s) already booked on this date.'
+                : 'All slots are available on this date.';
+            })
+            .catch(() => { info.textContent = ''; });
+        }
+      </script>
+{% endblock %}

@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}Clinic Home{% endblock %}
+
+{% block content %}
+      <!-- HERO -->
+      <section class="hero-home">
+        <div class="hero-home-inner">
+          <h1 class="hero-title">Your Health,<br />Our Priority</h1>
+          <p class="hero-subtitle">
+            Experience world-class healthcare with our team of expert doctors.
+            We provide personalized care for you and your family.
+          </p>
+
+          <a class="btn btn-pill hero-btn" href="{{ url_for('main.appointment_page') }}">
+            Book an Appointment
+          </a>
+        </div>
+      </section>
+
+      <!-- SEARCH -->
+      <section class="search-strip">
+        <div class="search-box">
+          <input
+            id="homeDoctorSearch"
+            type="search"
+            placeholder="Find doctors by specialty or name"
+          />
+          <button class="btn btn-dark" id="homeSearchBtn" type="button">
+            Search
+          </button>
+        </div>
+      </section>
+
+      <!-- QUICK LINKS / DEPARTMENTS -->
+      <section class="quick-links">
+        <h2 class="section-title">Explore Departments</h2>
+        <div class="chip-row">
+          <a class="chip" href="{{ url_for('doctor.doctors_page', specialty='Cardiology') }}">Cardiology</a>
+          <a class="chip" href="{{ url_for('doctor.doctors_page', specialty='Pediatrics') }}">Pediatrics</a>
+          <a class="chip" href="{{ url_for('doctor.doctors_page', specialty='Dermatology') }}">Dermatology</a>
+          <a class="chip" href="{{ url_for('doctor.doctors_page', specialty='Orthopedics') }}">Orthopedics</a>
+          <a class="chip" href="{{ url_for('doctor.doctors_page', specialty='Neurology') }}">Neurology</a>
+        </div>
+      </section>
+
+      <!-- DOCTORS -->
+      <section class="home-doctors" id="homeDoctorsList">
+        {% for doctor in doctors %}
+        <article class="doctor-mini-card" 
+                 data-name="{{ doctor.FirstName }} {{ doctor.LastName }}"
+                 data-specialty="{{ doctor.Specialty }}">
+          <img
+            src="{{ url_for('doctor.doctor_image', id=doctor.EmployeeID) }}"
+            alt="Dr. {{ doctor.FirstName }}"
+          />
+          <h3>Dr. {{ doctor.FirstName }} {{ doctor.LastName }}</h3>
+          <p class="highlight">{{ doctor.Specialty or '' }}</p>
+          <p>{{ (doctor.Bio or '')[:100] }}{% if doctor.Bio and doctor.Bio|length > 100 %}...{% endif %}</p> 
+          <p>{{ doctor.ExperienceYears or '0' }} Years Experience</p>
+
+          <a class="btn btn-pill" href="{{ url_for('main.appointment_page', doctor_id=doctor.EmployeeID) }}">
+            Book Appointment
+          </a>
+        </article>
+        {% endfor %}
+      </section>
+      
+      {% if not doctors %}
+      <p class="no-doctors-msg">No doctors currently available to display.</p>
+      {% endif %}
+
+      <!-- WHY CHOOSE US -->
+      <section class="why-us">
+        <h2 class="section-title">Why Choose Us?</h2>
+        <div class="why-us-grid">
+          <div class="why-card">
+            <div class="icon">🩺</div>
+            <h3>Expert Doctors</h3>
+            <p>Our team consists of highly qualified professionals dedicated to your care.</p>
+          </div>
+          <div class="why-card">
+             <div class="icon">🏥</div>
+            <h3>Modern Facilities</h3>
+            <p>State-of-the-art equipment and comfortable environments for all patients.</p>
+          </div>
+          <div class="why-card">
+             <div class="icon">⏱️</div>
+            <h3>Quick Service</h3>
+            <p>Minimal wait times and efficient appointment scheduling.</p>
+          </div>
+          <div class="why-card">
+             <div class="icon">💊</div>
+            <h3>Comprehensive Care</h3>
+            <p>From diagnosis to treatment and aftercare, we cover it all.</p>
+          </div>
+        </div>
+      </section>
+{% endblock %}

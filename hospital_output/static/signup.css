@@ -1,0 +1,335 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;700&display=swap");
+
+:root {
+  --bg-0: #fff7f2;
+  --bg-1: #ffe8dd;
+  --card: #fffdfb;
+  --ink: #2f1e1a;
+  --muted: #6f5550;
+  --line: #ecd7cd;
+  --brand: #e26d3d;
+  --brand-dark: #bf5125;
+  --accent: #1d8f88;
+  --radius-xl: 26px;
+  --radius-md: 12px;
+  --shadow-lg: 0 24px 60px rgba(93, 42, 23, 0.18);
+  --shadow-sm: 0 10px 24px rgba(65, 35, 21, 0.12);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body.signup-page {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Plus Jakarta Sans", "Segoe UI", sans-serif;
+  color: var(--ink);
+  background:
+    radial-gradient(circle at 12% 12%, #ffffff 0%, rgba(255, 255, 255, 0) 36%),
+    radial-gradient(
+      circle at 86% 84%,
+      rgba(29, 143, 136, 0.18) 0%,
+      rgba(29, 143, 136, 0) 40%
+    ),
+    linear-gradient(140deg, var(--bg-0), var(--bg-1));
+}
+
+.signup-shell {
+  min-height: 100vh;
+  padding: 22px;
+  display: grid;
+  place-items: center;
+}
+
+.signup-container {
+  width: min(1120px, 100%);
+  background: var(--card);
+  border: 1px solid rgba(226, 109, 61, 0.18);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  box-shadow: var(--shadow-lg);
+  animation: cardIn 700ms ease;
+}
+
+.signup-left {
+  padding: 42px;
+  background: linear-gradient(160deg, #fff8f5 0%, #ffece3 65%, #ffe2d5 100%);
+  border-right: 1px solid #f3d8cc;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.hero-copy {
+  animation: revealUp 700ms ease 80ms both;
+}
+
+.eyebrow {
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--brand-dark);
+}
+
+.signup-left h1 {
+  margin: 0;
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: clamp(1.75rem, 2.3vw, 2.35rem);
+  line-height: 1.16;
+}
+
+.hero-text {
+  margin: 14px 0 0;
+  color: #6b4b43;
+  line-height: 1.58;
+  max-width: 37ch;
+}
+
+.hero-points {
+  margin: 24px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.hero-points li {
+  padding-left: 26px;
+  position: relative;
+  color: #5a3428;
+  font-size: 0.94rem;
+  font-weight: 500;
+}
+
+.hero-points li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 4px;
+  width: 14px;
+  height: 14px;
+  border-radius: 4px;
+  background: linear-gradient(135deg, var(--brand), #f38e60);
+  box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.72);
+}
+
+.hero-visual-wrap {
+  margin-top: 20px;
+  background: rgba(255, 255, 255, 0.64);
+  border: 1px solid rgba(226, 109, 61, 0.24);
+  border-radius: 16px;
+  padding: 10px;
+  box-shadow: var(--shadow-sm);
+  animation: revealUp 700ms ease 180ms both;
+}
+
+.hero-visual {
+  width: 100%;
+  display: block;
+}
+
+.signup-right {
+  padding: 38px 40px;
+  animation: revealUp 700ms ease 120ms both;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: inline-grid;
+  place-items: center;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+  box-shadow: 0 8px 18px rgba(211, 92, 50, 0.3);
+}
+
+.logo h2 {
+  margin: 0;
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 1.42rem;
+}
+
+.welcome {
+  margin: 0 0 18px;
+  color: var(--muted);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-full {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #56362e;
+}
+
+input,
+select {
+  width: 100%;
+  height: 42px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-md);
+  background: #fff;
+  padding: 0 12px;
+  font-size: 0.93rem;
+  color: var(--ink);
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+input:focus,
+select:focus {
+  outline: none;
+  border-color: var(--brand);
+  box-shadow: 0 0 0 3px rgba(226, 109, 61, 0.17);
+  transform: translateY(-1px);
+}
+
+.btn-signup {
+  margin-top: 4px;
+  border: 0;
+  height: 46px;
+  border-radius: var(--radius-md);
+  font-family: "Outfit", "Segoe UI", sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  background: linear-gradient(135deg, var(--brand-dark), var(--brand));
+  box-shadow: 0 14px 28px rgba(211, 92, 50, 0.32);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.btn-signup:hover {
+  transform: translateY(-1px);
+  filter: saturate(1.1);
+  box-shadow: 0 18px 32px rgba(211, 92, 50, 0.35);
+}
+
+.btn-signup:active {
+  transform: translateY(1px);
+}
+
+.signin-link {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.signin-link a {
+  color: var(--accent);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signin-link a:hover {
+  text-decoration: underline;
+}
+
+@keyframes revealUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes cardIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.99);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 980px) {
+  .signup-left {
+    padding: 34px;
+  }
+
+  .signup-right {
+    padding: 32px;
+  }
+}
+
+@media (max-width: 860px) {
+  .signup-shell {
+    padding: 14px;
+  }
+
+  .signup-container {
+    grid-template-columns: 1fr;
+    border-radius: 18px;
+  }
+
+  .signup-left {
+    border-right: 0;
+    border-bottom: 1px solid #f3d8cc;
+    padding-bottom: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .signup-left,
+  .signup-right {
+    padding: 22px 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .field-full {
+    grid-column: auto;
+  }
+
+  .signup-left h1 {
+    font-size: 1.45rem;
+  }
+}

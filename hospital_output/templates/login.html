@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+{% block title %}Hospital CMS Login{% endblock %}
+
+{% block main_css %}
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='login.css') }}"
+    />
+{% endblock %}
+
+{% block header %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block main_container %}
+    <main class="login-shell">
+      <div class="login-container">
+        <section class="login-left" aria-label="Hospital highlights">
+          <div class="hero-copy">
+            <p class="eyebrow">Hospital Management System</p>
+            <h1>Care starts with a secure, fast sign-in.</h1>
+            <p class="hero-text">
+              Access records, appointments, billing, and care workflows in one
+              trusted dashboard.
+            </p>
+
+            <ul class="hero-points">
+              <li>Unified patient records</li>
+              <li>Real-time appointment tracking</li>
+              <li>Role-based secure access</li>
+            </ul>
+          </div>
+
+          <div class="hero-visual-wrap">
+            <img
+              src="{{ url_for('static', filename='login-hero.svg') }}"
+              class="hero-visual"
+              alt="Modern hospital building illustration"
+            />
+          </div>
+        </section>
+
+        <section class="login-right" aria-label="Login form">
+          <div class="logo">
+            <span class="logo-icon">+</span>
+            <h2>MediCore CMS</h2>
+          </div>
+
+          <p class="welcome">Welcome back. Please log in to your account.</p>
+          {% if error %}
+          <p style="color: red">{{ error }}</p>
+          {% endif %}
+          <form method="POST" action="{{ url_for('auth.login') }}">
+            <label for="email">Email or Username</label>
+            <input
+              id="email"
+              type="text"
+              name="email"
+              placeholder="e.g. dr.smith@hospital.com"
+              required
+            />
+
+            <div class="password-row">
+              <label for="password">Password</label>
+              <a href="#">Forgot password?</a>
+            </div>
+
+            <input
+              id="password"
+              type="password"
+              name="password"
+              placeholder="Enter password"
+              required
+            />
+
+            <label class="remember">
+              <input type="checkbox" name="remember" />
+              <span>Remember this device</span>
+            </label>
+
+            <button type="submit" class="btn-login">Sign In</button>
+          </form>
+
+          <div class="signup-link">
+            Don't have an account?
+            <a href="{{ url_for('auth.signup') }}">Sign up</a>
+          </div>
+
+          <div class="footer">&copy; 2026 MediCore Systems.</div>
+        </section>
+      </div>
+    </main>
+{% endblock %}
+
+{% block extra_js %}
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+{% endblock %}

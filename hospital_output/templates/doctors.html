@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Doctors{% endblock %}
+
+{% block page_class %}page-light{% endblock %}
+
+{% block content %}
+      <section class="doctors-layout">
+        <!-- Filter Panel -->
+        <aside class="filter-panel">
+          <h2>Filter & Search</h2>
+
+          <label>
+            <input
+              id="doctorSearch"
+              type="search"
+              placeholder="Search by name"
+            />
+          </label>
+
+          <div class="filter-group">
+            <h3>Department</h3>
+
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="department"
+                value="Cardiology"
+              />
+              Cardiology</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="department"
+                value="Neurology"
+              />
+              Neurology</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="department"
+                value="Pediatrics"
+              />
+              Pediatrics</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="department"
+                value="Dermatology"
+              />
+              Dermatology</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="department"
+                value="Orthopedics"
+              />
+              Orthopedics</label
+            >
+          </div>
+
+          <div class="filter-group">
+            <h3>Rating</h3>
+
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="rating"
+                value="4.5"
+              />
+              4.5 stars+</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="rating"
+                value="4"
+              />
+              4 stars+</label
+            >
+          </div>
+
+          <div class="filter-group">
+            <h3>Gender</h3>
+
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="gender"
+                value="Male"
+              />
+              Male</label
+            >
+            <label
+              ><input
+                type="checkbox"
+                class="doctor-filter"
+                data-filter="gender"
+                value="Female"
+              />
+              Female</label
+            >
+          </div>
+        </aside>
+
+        <!-- Doctors Cards -->
+        <section class="doctor-cards" id="doctorCards">
+          {% for doctor in doctors %}
+
+          <article
+            class="doctor-card"
+            data-id="{{ doctor.EmployeeID }}"
+            data-name="Dr {{ doctor.FirstName }} {{ doctor.LastName }}"
+            data-department="{{ doctor.Specialty }}"
+            data-rating="{{ doctor.Rating }}"
+            data-gender="{{ doctor.Gender }}"
+          >
+            <img
+              src="{{ url_for('doctor.doctor_image', id=doctor.EmployeeID) }}"
+              alt="Doctor Image"
+            />
+
+            <h3>Dr. {{ doctor.FirstName }} {{ doctor.LastName }}</h3>
+
+            <p class="highlight">{{ doctor.Specialty }}</p>
+
+            <p>{{ doctor.Bio }}</p>
+
+            <p>{{ doctor.ExperienceYears }} Years Experience</p>
+
+            <p>{{ doctor.Specialty }} Department</p>
+
+            <a
+              class="btn btn-pill book-appointment-link"
+              href="{{ url_for('main.appointment_page', doctor_id=doctor.EmployeeID) }}"
+            >
+              Book Appointment
+            </a>
+          </article>
+
+          {% endfor %}
+        </section>
+      </section>
+{% endblock %}

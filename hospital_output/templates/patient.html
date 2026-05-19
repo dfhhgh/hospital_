@@ -1,0 +1,140 @@
+{% extends "base.html" %}
+
+{% block title %}Book Appointment{% endblock %}
+
+{% block content %}
+
+<main class="page page-light">
+
+  <section class="section-header">
+    <h1>Book an Appointment</h1>
+  </section>
+
+  <section class="appointment-layout">
+
+    <div class="appointment-left">
+
+      <!-- Doctor Info -->
+      <article class="doctor-profile-card">
+
+        <img
+          id="bookingDoctorImage"
+          src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=300&q=80"
+          alt="Doctor"
+        />
+
+        <div>
+          <h2 id="bookingDoctorName">Doctor</h2>
+
+          <p id="bookingDoctorSpecialty" class="highlight">
+            Specialty
+          </p>
+
+          <p id="bookingDoctorExperience">
+            Experience
+          </p>
+
+          <p id="bookingDoctorDepartment">
+            Department
+          </p>
+        </div>
+
+      </article>
+
+      <!-- Calendar -->
+      <article class="calendar-card" id="calendarCard">
+
+        <div class="calendar-head">
+
+          <button type="button" id="prevMonth">
+            &lt;
+          </button>
+
+          <strong id="monthLabel">
+            Month Year
+          </strong>
+
+          <button type="button" id="nextMonth">
+            &gt;
+          </button>
+
+        </div>
+
+        <div class="calendar-weekdays">
+          <span>Su</span>
+          <span>Mo</span>
+          <span>Tu</span>
+          <span>We</span>
+          <span>Th</span>
+          <span>Fr</span>
+          <span>Sa</span>
+        </div>
+
+        <div class="calendar-days" id="calendarDays"></div>
+
+        <div class="time-slots" id="timeSlots">
+
+          <button type="button" data-time="9:00 AM">
+            9:00 AM
+          </button>
+
+          <button type="button" data-time="10:30 AM" class="selected">
+            10:30 AM
+          </button>
+
+          <button type="button" data-time="2:00 PM">
+            2:00 PM
+          </button>
+
+          <button type="button" data-time="4:30 PM">
+            4:30 PM
+          </button>
+
+        </div>
+
+      </article>
+
+    </div>
+
+    <!-- Booking Form -->
+    <article class="booking-form-card">
+
+      <h2>Patient Details</h2>
+
+      <form method="POST"
+            action="{{ url_for('book_appointment') }}"
+            class="booking-form">
+
+        <label>
+          Full Name
+          <input type="text" name="full_name" required>
+        </label>
+
+        <label>
+          Email Address
+          <input type="email" name="email" required>
+        </label>
+
+        <label>
+          Reason for Visit
+          <textarea name="reason" rows="4" required></textarea>
+        </label>
+
+        <input type="hidden" name="date" id="selectedDate">
+        <input type="hidden" name="time" id="selectedTime" value="10:30 AM">
+
+        <button class="btn btn-pill" type="submit">
+          Confirm Booking
+        </button>
+
+      </form>
+
+      <p class="form-note" id="bookingResult"></p>
+
+    </article>
+
+  </section>
+
+</main>
+
+{% endblock %}
