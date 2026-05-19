@@ -38,9 +38,8 @@ class AuthService:
             hashed_password = password
 
             # 1️⃣ Person
-            result = db.session.execute(text("""
+            db.session.execute(text("""
             INSERT INTO Person (FirstName, LastName, Gender, Email, Phone, Address)
-            OUTPUT INSERTED.PersonID
             VALUES (:first, :last, :gender, :email, :phone, :address)
             """), {
                 "first": first,
@@ -51,7 +50,7 @@ class AuthService:
                 "address": address
             })
 
-            person_id = result.fetchone()[0]
+            person_id = db.session.execute(text("SELECT LAST_INSERT_ID()")).scalar()
 
             # 2️⃣ Patient
             db.session.execute(text("""

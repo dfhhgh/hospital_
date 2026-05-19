@@ -52,7 +52,7 @@ class PatientService:
                 a.AppointmentTime,
                 a.DoctorID,
                 s.StatusName,
-                p.FirstName + ' ' + p.LastName AS DoctorName,
+                CONCAT(p.FirstName, ' ', p.LastName) AS DoctorName,
                 p.Email AS DoctorEmail,
                 a.PatientEmail AS AppointmentEmail,
                 a.StatusID,
